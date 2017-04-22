@@ -1,17 +1,8 @@
 {
-  "android": {
-    "senderID": "305634125815",
-    "variantID": "beadc2c1-074f-480b-8743-646eb2d951bf",
-    "variantSecret": "a7bcc25f-372f-4cd5-8b5f-1983a3c35447"
-  },
-  "appid": "pvg7ujupviiycy7avl6pgtqt",
-  "appkey": "54175b0b57a84bb2c2cd3e478dd4414d9913ded2",
-  "connectiontag": "0.0.14",
+  "appid": "a5evrqmapdmyrayrxybnhgn6",
+  "appkey": "a3cb33ee394973f6ca96df01320541eff6ae5aad",
+  "apptitle": "reporter",
+  "connectiontag": "0.0.3",
   "host": "https://mhu.us.demos.redhatmobile.com",
-  "ios": {
-    "variantID": "95564302-5ea4-4d83-9b46-cb6df0681d2e",
-    "variantSecret": "85eab92a-a2d3-4d86-ae5f-b2ffc6e75189"
-  },
-  "projectid": "pvg7ujthfc6f5lqm5ahr2vvq",
-  "pushServerURL": "https://mhu.us.demos.redhatmobile.com/api/v2/ag-push/"
+  "projectid": "a5evrqm2hnigfqhjuyvvq4ys"
 }
