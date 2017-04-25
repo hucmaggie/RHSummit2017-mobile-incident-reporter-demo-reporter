@@ -17,7 +17,7 @@ This template uses [Grunt](http://gruntjs.com/), the Javascript Task Runner. To 
 
 You can also use Grunt to point your App at a local developement server. To do this, use the ```grunt serve:local``` command. Some notes on using the serve:local task:
 
-* by default, the local server development url is: http://localhost:8001
+* by default, the local server development url is: http://localhost:7001
 * you can change this directly in your local Gruntfile.js, in the app config:
 
 ```
@@ -25,7 +25,7 @@ You can also use Grunt to point your App at a local developement server. To do t
     // configurable paths
     app: 'www',
     url: '',
-    default_local_server_url: 'http://localhost:8001'
+    default_local_server_url: 'http://localhost:7001'
   },
 ```
 

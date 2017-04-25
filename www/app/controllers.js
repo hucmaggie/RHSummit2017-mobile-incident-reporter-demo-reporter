@@ -18,6 +18,9 @@
 		}
 
 		function loadClaims() {
+
+            $log.info("Inside loadClaims");
+
 			feedhenry.cloud({
 				path : '/v1/api/claim',
 				method : 'GET',
@@ -26,11 +29,21 @@
 				$timeout(function() {
 					vm.claims = response;
 					vm.claimCount = 0;
-					vm.claims.list.forEach(function(elt, i) {
-						if (elt.fields.approved === null) {
-							vm.claimCount++;
-						}
-					});
+
+					if (claims){
+
+                        vm.claims.list.forEach(function(elt, i) {
+                            if (elt.fields.approved === null) {
+                                vm.claimCount++;
+                            }
+                        });
+
+                        $log.info("found " + vm.claimCount + " existing Claims");
+					}
+					else{
+                        $log.info("no existing Claims");
+					}
+
 				});
 			}, function(message, error) {
 				$log.info(message);
@@ -74,6 +87,9 @@
 		vm.updateAnswers = updateAnswers;
 
 		function saveClaim(claim) {
+
+            $log.info("Inside saveClaim, claim: ", claim);
+
 			// If there is a claim persist it to the DB
 			if (claim) {
 				// Clean out any angular $resource metadata
@@ -100,6 +116,8 @@
 		}
 
 		function updateClaim(claim) {
+            $log.info("Inside newClaimController:updateClaim, claim: ", claim);
+
 			if (claim) {
 				// Clean out any angular $resource metadata
 				FHCObjectScrubber.cleanObject(claim.questionnaires[0]);
@@ -124,6 +142,8 @@
 		}
 
 		function updateAnswers() {
+
+            $log.info("Inside updateAnswers");
 			var answers = [];
 			vm.claim.questionnaires[0].questions.forEach(function(elt, i) {
 				if (!vm.answers[i]) {
@@ -169,6 +189,9 @@
 		}
 
 		function finishIncident() {
+
+            $log.info("Inside finishIncident");
+
 			if (vm.claim && vm.claim.incident && vm.claim.statedValue) {
 				feedhenry.cloud({
 					path : '/api/v1/bpms/startprocess',
@@ -194,6 +217,9 @@
 		}
 
 		function submitIncident() {
+
+            $log.info("Inside submitIncident");
+
 			vm.claim.incident.id = vm.incident.id;
 			vm.claim.incident.type = vm.incident.type;
 			vm.claim.incident.description = vm.description;
@@ -223,6 +249,7 @@
 	}
 
 	function claimDetailController($http, $log, $location, $rootScope, $timeout, $ionicPlatform, $cordovaCamera, FHCObjectScrubber) {
+
 		$log.info('Inside Claimee:ClaimDetailController');
 		var vm = this;
 
@@ -234,6 +261,8 @@
 		vm.takePhoto = takePhoto;
 
 		function loadClaim() {
+
+            $log.info("Inside loadClaim");
 			if ($rootScope.claim) {
 				vm.claim = $rootScope.claim;
 				if (vm.claim.fields.adjustedValue) {
@@ -246,6 +275,8 @@
 		}
 
 		function saveComment() {
+
+            $log.info("Inside saveComment");
 			if (vm.comment) {
 				feedhenry.cloud({
 					path : '/api/v1/bpms/add-comments/' + vm.claim.fields.processId,
@@ -268,6 +299,9 @@
 		}
 
 		function takePhoto(source) {
+
+            $log.info("Inside takePhoto, source: ", source);
+
 			if (ready) {
 				vm.showUploadSpinner = true;
 				var options = {
@@ -294,6 +328,8 @@
 		}
 
 		function sendPhoto(imageUri) {
+
+            $log.info("Inside sendPhoto, imageUri: ", imageUri);
 			var url = $fh.getCloudURL();
 
 			var options = new FileUploadOptions();
@@ -322,6 +358,8 @@
 		}
 
 		function updateClaim(claim) {
+
+            $log.info("Inside claimDetailController:updateClaim, claim: ", claim);
 			if (claim) {
 				// Clean out any angular $resource metadata
 				FHCObjectScrubber.cleanObject(claim.questionnaires[0]);
