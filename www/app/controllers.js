@@ -19,7 +19,7 @@
 
 		function loadClaims() {
 
-            $log.info("Inside loadClaims");
+            $log.info("Inside claimsController:loadClaims");
 
 			feedhenry.cloud({
 				path : '/v1/api/claim',
@@ -27,18 +27,20 @@
 				contentType : 'application/json'
 			}, function(response) {
 				$timeout(function() {
+
+                    $log.info("got Claims: ", response);
 					vm.claims = response;
 					vm.claimCount = 0;
 
-					if (claims){
+					if (vm.claims != null || vm.claims != undefined){
 
-                        vm.claims.list.forEach(function(elt, i) {
-                            if (elt.fields.approved === null) {
+                        vm.claims.forEach(function(elt, i) {
+                            //if (elt.fields.approved === null) {
                                 vm.claimCount++;
-                            }
+                            //}
                         });
 
-                        $log.info("found " + vm.claimCount + " existing Claims");
+                        $log.info("found " + vm.claimCount + " existing Claim(s)");
 					}
 					else{
                         $log.info("no existing Claims");
@@ -46,7 +48,7 @@
 
 				});
 			}, function(message, error) {
-				$log.info(message);
+				$log.info("loadClaims: " + message);
 				$log.error(error);
 			});
 		}
@@ -78,7 +80,6 @@
 			photos : [],
 			approved : null,
 			statedValue : null,
-			adjustedValue : null,
 			comments : []
 		};
 
@@ -93,9 +94,9 @@
 			// If there is a claim persist it to the DB
 			if (claim) {
 				// Clean out any angular $resource metadata
-				FHCObjectScrubber.cleanObject(claim.questionnaires[0]);
+				FHCObjectScrubber.cleanObject(claim.questionnaire);
 				FHCObjectScrubber.cleanObject(claim.incident);
-				claim.questionnaires[0].questions.forEach(function(elt, i) {
+				claim.questionnaire.questions.forEach(function(elt, i) {
 					FHCObjectScrubber.cleanObject(elt);
 				});
 				// POST to the could endpoint
@@ -120,9 +121,9 @@
 
 			if (claim) {
 				// Clean out any angular $resource metadata
-				FHCObjectScrubber.cleanObject(claim.questionnaires[0]);
+				FHCObjectScrubber.cleanObject(claim.questionnaire);
 				FHCObjectScrubber.cleanObject(claim.incident);
-				claim.questionnaires[0].questions.forEach(function(elt, i) {
+				claim.questionnaire.questions.forEach(function(elt, i) {
 					FHCObjectScrubber.cleanObject(elt);
 				});
 				// POST to the cloud endpoint
@@ -145,7 +146,7 @@
 
             $log.info("Inside updateAnswers");
 			var answers = [];
-			vm.claim.questionnaires[0].questions.forEach(function(elt, i) {
+			vm.claim.questionnaire.questions.forEach(function(elt, i) {
 				if (!vm.answers[i]) {
 					if (elt.answerType === 'YES_NO') {
 						vm.answers[i] = false;
@@ -156,7 +157,7 @@
 			});
 			vm.answers.forEach(function(elt, i) {
 				var answer = {};
-				answer.questionId = vm.claim.questionnaires[0].questions[i].questionId;
+				answer.questionId = vm.claim.questionnaire.questions[i].questionId;
 				if (elt === true) {
 					answer.strValue = 'Yes';
 				} else if (elt === false) {
@@ -166,20 +167,20 @@
 				}
 				answers.push(answer);
 			});
-			vm.claim.questionnaires[0].answers = answers;
-			if (vm.claim.questionnaires[0].answers.length > 0) {
-				FHCObjectScrubber.cleanObject(vm.claim.questionnaires[0]);
-				vm.claim.questionnaires[0].questions.forEach(function(elt, i) {
+			vm.claim.questionnaire.answers = answers;
+			if (vm.claim.questionnaire.answers.length > 0) {
+				FHCObjectScrubber.cleanObject(vm.claim.questionnaire);
+				vm.claim.questionnaire.questions.forEach(function(elt, i) {
 					FHCObjectScrubber.cleanObject(elt);
 				});
 				feedhenry.cloud({
 					path : '/api/v1/bpms/update-questions',
 					method : 'POST',
 					contentType : 'application/json',
-					data : vm.claim.questionnaires[0]
+					data : vm.claim.questionnaire
 				}, function(response) {
 					$timeout(function() {
-						vm.claim.questionnaires[0] = response;
+						vm.claim.questionnaire = response;
 					});
 				}, function(message, error) {
 					$log.info(message);
@@ -192,7 +193,7 @@
 
             $log.info("Inside finishIncident");
 
-			if (vm.claim && vm.claim.incident && vm.claim.statedValue) {
+			if (vm.claim && vm.claim.incident) {
 				feedhenry.cloud({
 					path : '/api/v1/bpms/startprocess',
 					method : 'POST',
@@ -227,21 +228,28 @@
 			vm.claim.incident.stateCode = vm.stateCode;
 			vm.claim.incident.zipCode = vm.zipCode;
 			vm.claim.statedValue = vm.statedValue;
+
 			delete vm.claim.incident.$$hashKey;
+
 			feedhenry.cloud({
 				path : '/api/v1/bpms/customer-incident',
 				method : 'POST',
 				contentType : 'application/json',
 				data : vm.claim.incident
 			}, function(response) {
+
+                //$log.info("Got response: ", response);
+
+                var questionnaire = response.result["execution-results"].results[0].value["org.drools.core.runtime.rule.impl.FlatQueryResults"].idFactHandleMaps.element[0].element[0].value["org.drools.core.common.DisconnectedFactHandle"].object["com.redhat.vizuri.demo.domain.Questionnaire"];
+                $log.info("Got questionnaire: ", questionnaire);
 				$timeout(function() {
-					vm.claim.questionnaires[0] = response;
+					vm.claim.questionnaire = questionnaire;
 					vm.answers = [];
 					vm.showIncident = false;
 					vm.showQuestions = true;
 				});
 			}, function(message, error) {
-				$log.info(message);
+				$log.info("Found error: ", message);
 				$log.error(error);
 			});
 		}
@@ -262,12 +270,13 @@
 
 		function loadClaim() {
 
-            $log.info("Inside loadClaim");
+            $log.info("Inside claimDetailController:loadClaim");
+
 			if ($rootScope.claim) {
 				vm.claim = $rootScope.claim;
-				if (vm.claim.fields.adjustedValue) {
-					vm.showAdjustedValue = true;
-				}
+				// if (vm.claim.adjustedValue) {
+				// 	vm.showAdjustedValue = true;
+				// }
 				vm.hasClaim = true;
 			} else {
 				$location.path('/claims');
@@ -287,7 +296,7 @@
 						messageSource : 'customer'
 					}
 				});
-				vm.claim.fields.comments.push({
+				vm.claim.incidentComments.push({
 					message : vm.comment,
 					title : '',
 					commenterName : '',
@@ -348,7 +357,7 @@
 					uploadDate : new Date(),
 					takenDate : ''
 				}
-				vm.claim.fields.photos.push(photo);
+				vm.claim.incidentPhotoIds.push(photo);
 				updateClaim(vm.claim.fields);
 				vm.showUploadSpinner = false;
 			}, function(error) {
@@ -362,7 +371,7 @@
             $log.info("Inside claimDetailController:updateClaim, claim: ", claim);
 			if (claim) {
 				// Clean out any angular $resource metadata
-				FHCObjectScrubber.cleanObject(claim.questionnaires[0]);
+				FHCObjectScrubber.cleanObject(claim.questionnaire);
 				FHCObjectScrubber.cleanObject(claim.incident);
 				// POST to the could endpoint
 				feedhenry.cloud({

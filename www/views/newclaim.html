@@ -1,6 +1,6 @@
 <ion-view> <ion-header-bar align-title="center" class="bar bar-header bar-dark"> <a class="button button-icon icon ion-close-round" href="#/claims" ng-show="vm.showIncident"></a>
 <h1 class="title">New Claim</h1>
-<button class="button button-dark" ng-click="vm.submitIncident()" ng-disabled="!vm.incident || !vm.statedValue" ng-if="vm.showIncident">Submit Incident</button>
+<button class="button button-dark" ng-click="vm.submitIncident()" ng-disabled="!vm.incident" ng-if="vm.showIncident">Submit Incident</button>
 <a class="button button-dark" ng-click="vm.finishIncident()" ng-if="vm.showQuestions">Finish</a> </ion-header-bar> <ion-content>
 <div ng-show="vm.showIncident">
 	<div class="list">
