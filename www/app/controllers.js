@@ -160,7 +160,7 @@
 			var answers = [];
 			vm.claim.questionnaire.questions.forEach(function(elt, i) {
 
-                $log.info("check answer for question["+elt.questionId+"]");
+                $log.info("check answer for question["+elt.questionId+"], enabled["+elt.enabled+"]");
 			    if (!vm.answers[i]) {
 					if (elt.answerType === 'YES_NO') {
 						vm.answers[i] = false;
@@ -217,7 +217,7 @@
 
                         vm.claim.questionnaire.questions.forEach(function(elt) {
 
-                            $log.info("question["+elt.questionId+"], enabled" + elt.enabled);
+                            $log.info("question["+elt.questionId+"], enabled: " + elt.enabled);
 
                         });
 
