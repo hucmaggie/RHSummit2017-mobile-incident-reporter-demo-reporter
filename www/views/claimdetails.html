@@ -49,15 +49,15 @@
                 </div>
                 <div class="item">
                     <div ng-repeat="photo in vm.claim.photos track by $index">
-                        <img width="20%" ng-src="{{photo}}">
+                        <img width="30%" ng-src="{{photo}}">
                     </div>
                 </div>
                 <div class="item item-divider">
                     Comments<a style="float: right" class="button button-small button-dark" ng-click="vm.saveComment()"
                                ng-show="claim.incidentStatus === 'IN_PROGRESS'">Save Comment</a>
                 </div>
-                <div class="item" ng-show="vm.claim.incidentComments.length > 0">
-                    <div class="item" ng-repeat="comment in vm.claim.incidentComments">{{comment.message}}</div>
+                <div class="item" ng-show="vm.claim.comments.length > 0">
+                    <div class="item" ng-repeat="comment in vm.claim.comments">{{comment.message}}</div>
                 </div>
                 <div class="item" ng-show="claim.incidentStatus === 'IN_PROGRESS'">
                     <label class="item item-input item-stacked-label"> <span class="input-label">Add Comment</span>

@@ -12,6 +12,8 @@
 		vm.loadClaimDetails = loadClaimDetails;
 
 		function loadClaimDetails(claim) {
+            $log.info('Inside claimsController:loadClaimDetails');
+            $log.info("Found claim: ", claim);
 			if (claim) {
 				$rootScope.claim = claim;
 			}
@@ -22,7 +24,7 @@
             $log.info("Inside claimsController:loadClaims");
 
 			feedhenry.cloud({
-				path : '/v1/api/claim',
+				path : '/v1/api/claims',
 				method : 'GET',
 				contentType : 'application/json'
 			}, function(response) {
@@ -43,9 +45,20 @@
                                 claim.photos = [];
                                 claim.incidentPhotoIds.forEach(function(p, i) {
 
-                                    var link = 'http://services-incident-demo.apps.ocp.hucmaggie.com/photos/' + claim.processId + '/' + p.replace(/'/g, '')
+                                    var link = 'http://services-incident-demo.apps.ocp.hucmaggie.com/photos/' + claim.processId + '/' + p.replace(/'/g, '');
                                     claim.photos.push(link);
                                     $log.info("photo link: ", link);
+                                });
+                            }
+
+                            // lets fix the comments
+                            if (claim.incidentComments && claim.incidentComments.length > 0){
+                                claim.comments = [];
+                                claim.incidentComments.forEach(function(c, i) {
+
+                                    claim.comments.push({message: c});
+
+                                    //$log.info("comment message: ", c);
                                 });
                             }
 
@@ -341,7 +354,8 @@
 
                 $log.info("done saving Comment: ", vm.comment);
 
-				vm.claim.incidentComments.push({
+                //incidentComments
+				vm.claim.comments.push({
 					message : vm.comment,
 					title : '',
 					commenterName : '',

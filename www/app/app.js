@@ -29,7 +29,7 @@
 			templateUrl : 'views/landing.html'
 		}).state('claims', {
 			url : '/claims',
-			templateUrl : 'views/claims.html',
+			templateUrl : 'views/existingclaims.html',
 			controller : 'ClaimsController as vm'
 		}).state('newclaim', {
 			url : '/newclaim',
