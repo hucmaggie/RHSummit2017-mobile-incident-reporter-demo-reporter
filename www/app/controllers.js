@@ -409,52 +409,17 @@
 
 			var ft = new FileTransfer();
 			ft.upload(imageUri, encodeURI(url + '/api/v1/bpms/upload-photo/' + vm.claim.processId + '/' + options.fileName), function(success) {
-         $log.info("Found photo link: " + success.link);
+			$log.info("Found photo link: " + success.link);
 
-			    var link = success.link;
-				//var parsedResponse = JSON.parse(response.replace('\\', ''));
-				// var photo = {
-				//     // http://services-incident-demo.apps.ocp.hucmaggie.com/photos/1/iden_new.png
-				// 	photoUrl : link,
-				// 	description : '',
-				// 	uploaderName : vm.claim.processId,
-				// 	uploadDate : new Date(),
-				// 	takenDate : ''
-				// };
+			var link = success.link;
+			vm.claim.photos.push(link);
 
-                //incidentPhotoIds
-				vm.claim.photos.push(link);
-				//updateClaim(vm.claim);
-				vm.showUploadSpinner = false;
+			vm.showUploadSpinner = false;
 			}, function(error) {
 				vm.showUploadSpinner = false;
 				$log.error(error);
 			}, options);
 		}
-
-		// function updateClaim(claim) {
-        //
-         //    $log.info("Inside claimDetailController:updateClaim, claim: ", claim);
-        //
-		// 	if (claim) {
-		// 		// Clean out any angular $resource metadata
-		// 		FHCObjectScrubber.cleanObject(claim.questionnaire);
-		// 		FHCObjectScrubber.cleanObject(claim.incident);
-		// 		// POST to the could endpoint
-		// 		feedhenry.cloud({
-		// 			path : '/v1/api/claim',
-		// 			method : 'PUT',
-		// 			contentType : 'application/json',
-		// 			data : claim
-		// 		}, function(response) {
-		// 			// Track the DB id for updates
-		// 			vm.claim.id = response.guid;
-		// 		}, function(message, error) {
-		// 			$log.info(message);
-		// 			$log.error(error);
-		// 		});
-		// 	}
-		// }
 
 		loadClaim();
 
