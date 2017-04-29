@@ -7,6 +7,7 @@
   <access origin="https://*.us.demos.redhatmobile.com"/>
   <access origin="https://*.mbaas2.tom.redhatmobile.com"/>
 
+  <plugin name="cordova-plugin-whitelist" spec="https://github.com/apache/cordova-plugin-whitelist" />
   <plugin name="cordova-plugin-device" spec="latest"/>
   <plugin name="cordova-plugin-camera" spec="latest"/>
   <plugin name="cordova-plugin-file-transfer" spec="latest"/>
@@ -16,7 +17,6 @@
   <plugin name="cordova-plugin-dialogs" spec="latest"/>
   <plugin name="cordova-plugin-vibration" spec="latest"/>
   <plugin name="cordova-plugin-contacts" spec="latest"/>
-  <plugin name="cordova-plugin-whitelist" spec="latest"/>
   <plugin name="cordova-plugin-splashscreen" spec="latest"/>
   <plugin name="cordova-plugin-screen-orientation" spec="latest"/>
   <plugin name="com.feedhenry.plugins.apis" spec="https://github.com/fheng/fh-cordova-plugins-api.git#fh0.0.6"/>
