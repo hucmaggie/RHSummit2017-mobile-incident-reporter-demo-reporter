@@ -323,8 +323,7 @@
 		vm.takePhoto = takePhoto;
 
 		function loadClaim() {
-
-            $log.info("Inside claimDetailController:loadClaim");
+			$log.info("Inside claimDetailController:loadClaim");
 
 			if ($rootScope.claim) {
 				vm.claim = $rootScope.claim;
@@ -366,38 +365,41 @@
 			}
 		}
 
-		function takePhoto(source) {
-
-            $log.info("Inside takePhoto, source: ", source);
+		function takePhoto(pictureSourceId) {
+			$log.info("Inside takePhoto, pictureSourceId: " + pictureSourceId);
 
 			if (ready) {
 				vm.showUploadSpinner = true;
 				var options = {
 					quality : 100,
 					destinationType : 1,
-					sourceType : source,
+					sourceType : pictureSourceId,
 					encodingType : 0
 				};
 				$cordovaCamera.getPicture(options).then(function(imageData) {
 					var imageUri = imageData;
-					sendPhoto(imageUri);
-					$cordovaCamera.cleanup(function() {
-						$log.info('Cleanup Sucesss');
-					}, function() {
-						$log.info('Cleanup Failure');
-					});
+					if (imageUri) {
+						sendPhoto(imageUri);
+						$cordovaCamera.cleanup(function() {
+							$log.info('Cleanup Sucesss');
+						}, function() {
+							$log.info('Cleanup Failure');
+						});
+					} else {
+						$log.error("ImageUri not retrieved from camera!");
+					}
+					vm.showUploadSpinner = false;
 				}, function(err) {
 					$log.info('Error');
 					vm.showUploadSpinner = false;
 				});
 			} else {
-				$log.info('Not ready!');
+				$log.info('Not ready for pictures!');
 			}
 		}
 
 		function sendPhoto(imageUri) {
-
-            $log.info("Inside sendPhoto, imageUri: ", imageUri);
+      $log.info("Inside sendPhoto, imageUri: " + imageUri);
 			var url = $fh.getCloudURL();
 
 			var options = new FileUploadOptions();
@@ -407,7 +409,7 @@
 
 			var ft = new FileTransfer();
 			ft.upload(imageUri, encodeURI(url + '/api/v1/bpms/upload-photo/' + vm.claim.processId + '/' + options.fileName), function(success) {
-                $log.info("Found photo link: " + success.link);
+         $log.info("Found photo link: " + success.link);
 
 			    var link = success.link;
 				//var parsedResponse = JSON.parse(response.replace('\\', ''));
