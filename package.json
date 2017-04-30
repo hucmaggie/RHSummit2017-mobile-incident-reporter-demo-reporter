@@ -13,29 +13,6 @@
     "grunt-contrib-watch": "^0.6.1",
     "grunt": "^0.4.4"
   },
-  "cordovaPlugins": [
-    "cordova-plugin-whitelist",
-    "cordova-plugin-device",
-    "cordova-plugin-file",
-    "cordova-plugin-file-transfer",
-    "cordova-plugin-camera",
-    "cordova-plugin-media",
-    "cordova-plugin-media-capture",
-    "cordova-plugin-dialogs",
-    "cordova-plugin-vibration",
-    "cordova-plugin-contacts",
-    "cordova-plugin-splashscreen",
-    "cordova-plugin-screen-orientation",
-    "com.feedhenry.plugins.apis@fh0.0.6",
-    "com.feedhenry.plugins.apkdownloader@fh0.0.1",
-    "cordova-plugin-statusbar",
-    "com.feedhenry.plugin.device@fh0.0.3",
-    "cordova-plugin-splashscreen@4.0.1",
-    "aerogear-cordova-push@3.1.0"
- ],
- "cordovaPlatforms": [
-   "ios","android"
- ],
   "engines": {
     "node": ">=0.8.0"
   },

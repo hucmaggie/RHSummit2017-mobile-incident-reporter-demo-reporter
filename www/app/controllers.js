@@ -383,6 +383,9 @@
 
 				$rootScope.$apply(function() {
 						$log.info("Scope apply for link: " + link);
+						if (!vm.claim.photos) {
+							vm.claim.photos = [];
+						}
 						vm.claim.photos.push(link);
 				});
 				vm.showUploadSpinner = false;
