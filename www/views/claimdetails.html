@@ -27,9 +27,6 @@
                 <div class="item">
                     <strong>Stated Value: </strong>{{vm.claim.statedValue | currency}}
                 </div>
-                <!--<div class="item" ng-show="vm.showAdjustedValue">-->
-                <!--<strong>Adjusted Value: </strong>{{vm.claim.adjustedValue | currency}}-->
-                <!--</div>-->
                 <div class="item">
                     <strong>{{vm.claim.questionnaire.name}}</strong>
                     <div ng-repeat="question in vm.claim.questionnaire.questions">{{question.description}} -
@@ -47,11 +44,12 @@
                         Photo
                     </button>
                 </div>
-                <div class="item">
-                    <div ng-repeat="photo in vm.claim.photos track by $index">
+                <div class="incident-photo-gallery">
+                    <div ng-repeat="photo in vm.claim.photos">
                         <img width="30%" ng-src="{{photo}}">
                     </div>
                 </div>
+                <br style="clear:both" /><br />
                 <div class="item item-divider">
                     Comments<a style="float: right" class="button button-small button-dark" ng-click="vm.saveComment()"
                                ng-show="claim.incidentStatus === 'IN_PROGRESS'">Save Comment</a>

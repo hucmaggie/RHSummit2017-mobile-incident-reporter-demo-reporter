@@ -12,16 +12,15 @@
 		vm.loadClaimDetails = loadClaimDetails;
 
 		function loadClaimDetails(claim) {
-            $log.info('Inside claimsController:loadClaimDetails');
-            $log.info("Found claim: ", claim);
+      $log.info('Inside claimsController:loadClaimDetails');
+      $log.info("Found claim: ", claim);
 			if (claim) {
 				$rootScope.claim = claim;
 			}
 		}
 
 		function loadClaims() {
-
-            $log.info("Inside claimsController:loadClaims");
+			$log.info("Inside claimsController:loadClaims");
 
 			feedhenry.cloud({
 				path : '/v1/api/claims',
@@ -29,45 +28,35 @@
 				contentType : 'application/json'
 			}, function(response) {
 				$timeout(function() {
-
-                    $log.info("got Claims: ", response);
+        	$log.info("got Claims: ", response);
 					vm.claims = response;
 					vm.claimCount = 0;
 
 					if (vm.claims != null || vm.claims != undefined){
-
-                        vm.claims.forEach(function(claim) {
-
-                            vm.claimCount++;
-
-                            // lets fix the photos
-                            if (claim.incidentPhotoIds && claim.incidentPhotoIds.length > 0){
-                                claim.photos = [];
-                                claim.incidentPhotoIds.forEach(function(p, i) {
-
-                                    var link = 'http://services-incident-demo.apps.ocp.hucmaggie.com/photos/' + claim.processId + '/' + p.replace(/'/g, '');
-                                    claim.photos.push(link);
-                                    $log.info("photo link: ", link);
-                                });
-                            }
-
-                            // lets fix the comments
-                            if (claim.incidentComments && claim.incidentComments.length > 0){
-                                claim.comments = [];
-                                claim.incidentComments.forEach(function(c, i) {
-
-                                    claim.comments.push({message: c});
-
-                                    //$log.info("comment message: ", c);
-                                });
-                            }
-
+                vm.claims.forEach(function(claim) {
+                    vm.claimCount++;
+                    // lets fix the photos
+                    if (claim.incidentPhotoIds && claim.incidentPhotoIds.length > 0){
+                        claim.photos = [];
+                        claim.incidentPhotoIds.forEach(function(p, i) {
+                            var link = 'http://services-incident-demo.apps.ocp.hucmaggie.com/photos/' + claim.processId + '/' + p.replace(/'/g, '');
+                            claim.photos.push(link);
+                            $log.info("photo link: ", link);
                         });
+                    }
 
-                        $log.info("found " + vm.claimCount + " existing Claim(s)");
+                    // lets fix the comments
+                    if (claim.incidentComments && claim.incidentComments.length > 0) {
+                        claim.comments = [];
+                        claim.incidentComments.forEach(function(c, i) {
+                        	claim.comments.push({message: c});
+                        });
+                    }
+                });
+                $log.info("found " + vm.claimCount + " existing Claim(s)");
 					}
-					else{
-                        $log.info("no existing Claims");
+					else {
+                $log.info("no existing Claims");
 					}
 
 				});
@@ -112,8 +101,7 @@
 		vm.updateAnswers = updateAnswers;
 
 		function saveClaim(claim) {
-
-            $log.info("Inside saveClaim, claim: ", claim);
+      $log.info("Inside saveClaim, claim: ", claim);
 
 			// If there is a claim persist it to the DB
 			if (claim) {
@@ -141,7 +129,7 @@
 		}
 
 		function updateClaim(claim) {
-            $log.info("Inside newClaimController:updateClaim, claim: ", claim);
+      $log.info("Inside newClaimController:updateClaim, claim: ", claim);
 
 			if (claim) {
 				// Clean out any angular $resource metadata
@@ -167,13 +155,11 @@
 		}
 
 		function updateAnswers() {
-
-            $log.info("Inside updateAnswers");
+      $log.info("Inside updateAnswers");
 
 			var answers = [];
 			vm.claim.questionnaire.questions.forEach(function(elt, i) {
-
-                $log.info("check answer for question["+elt.questionId+"], enabled["+elt.enabled+"]");
+  				$log.info("check answer for question["+elt.questionId+"], enabled["+elt.enabled+"]");
 			    if (!vm.answers[i]) {
 					if (elt.answerType === 'YES_NO') {
 						vm.answers[i] = false;
@@ -186,8 +172,7 @@
 			vm.answers.forEach(function(elt, i) {
 				var answer = {};
 				answer.questionId = vm.claim.questionnaire.questions[i].questionId;
-
-                $log.info("check answer["+elt.questionId+"], value["+elt.strValue+"]", elt);
+				$log.info("check answer["+elt.questionId+"], value["+elt.strValue+"]", elt);
 
 				if (elt === true) {
 					answer.strValue = 'Yes';
@@ -197,19 +182,17 @@
 					answer.strValue = elt;
 				}
 
-                $log.info("save answer: ", answer);
+        $log.info("save answer: ", answer);
 				answers.push(answer);
 			});
 
-            $log.info("answers: ", answers);
+      $log.info("answers: ", answers);
 
 			vm.claim.questionnaire.answers = answers;
 
-            //$log.info("questionnaire: ", vm.claim.questionnaire);
-
 			if (vm.claim.questionnaire.answers.length > 0) {
 
-                $log.info("clean questionnaire");
+        $log.info("clean questionnaire");
 
 				FHCObjectScrubber.cleanObject(vm.claim.questionnaire);
 
@@ -217,7 +200,7 @@
 					FHCObjectScrubber.cleanObject(elt);
 				});
 
-                $log.info("questionnaire: ", vm.claim.questionnaire);
+        $log.info("questionnaire: ", vm.claim.questionnaire);
 
 				feedhenry.cloud({
 					path : '/api/v1/bpms/update-questions',
@@ -227,12 +210,9 @@
 				}, function(response) {
 					$timeout(function() {
 						vm.claim.questionnaire = response;
-
-                        vm.claim.questionnaire.questions.forEach(function(elt) {
-
-                            $log.info("question["+elt.questionId+"], enabled: " + elt.enabled);
-
-                        });
+            vm.claim.questionnaire.questions.forEach(function(elt) {
+                $log.info("question["+elt.questionId+"], enabled: " + elt.enabled);
+            });
 
 					});
 				}, function(message, error) {
@@ -243,8 +223,7 @@
 		}
 
 		function finishIncident() {
-
-            $log.info("Inside finishIncident");
+      $log.info("Inside finishIncident");
 
 			if (vm.claim && vm.claim.incident) {
 				feedhenry.cloud({
@@ -271,8 +250,7 @@
 		}
 
 		function submitIncident() {
-
-            $log.info("Inside submitIncident");
+      $log.info("Inside submitIncident");
 
 			vm.claim.incident.id = vm.incident.id;
 			vm.claim.incident.type = vm.incident.type;
@@ -290,12 +268,7 @@
 				contentType : 'application/json',
 				data : vm.claim.incident
 			}, function(response) {
-
-                //$log.info("Got response: ", response);
-
-                //var questionnaire = response.result["execution-results"].results[0].value["org.drools.core.runtime.rule.impl.FlatQueryResults"].idFactHandleMaps.element[0].element[0].value["org.drools.core.common.DisconnectedFactHandle"].object["com.redhat.vizuri.demo.domain.Questionnaire"];
-
-                $log.info("Got questionnaire: ", response);
+        $log.info("Got questionnaire: ", response);
 				$timeout(function() {
 					vm.claim.questionnaire = response;
 					vm.answers = [];
@@ -327,9 +300,6 @@
 
 			if ($rootScope.claim) {
 				vm.claim = $rootScope.claim;
-				// if (vm.claim.adjustedValue) {
-				// 	vm.showAdjustedValue = true;
-				// }
 				vm.hasClaim = true;
 			} else {
 				$location.path('/claims');
@@ -338,9 +308,9 @@
 
 		function saveComment() {
 
-            $log.info("Inside saveComment: ", vm.comment);
+      $log.info("Inside saveComment: ", vm.comment);
 
-            if (vm.comment) {
+      if (vm.comment) {
 				feedhenry.cloud({
 					path : '/api/v1/bpms/add-comments/' + vm.claim.processId,
 					method : 'POST',
@@ -351,9 +321,8 @@
 					}
 				});
 
-                $log.info("done saving Comment: ", vm.comment);
+        $log.info("done saving Comment: ", vm.comment);
 
-                //incidentComments
 				vm.claim.comments.push({
 					message : vm.comment,
 					title : '',
@@ -361,7 +330,6 @@
 					commentDate : new Date()
 				});
 				vm.comment = '';
-				//updateClaim(vm.claim);
 			}
 		}
 
@@ -372,8 +340,9 @@
 				vm.showUploadSpinner = true;
 				var options = {
 					quality : 100,
-					destinationType : 1,
+					destinationType : Camera.DestinationType.FILE_URI,
 					sourceType : pictureSourceId,
+					correctOrientation: true,
 					encodingType : 0
 				};
 				$cordovaCamera.getPicture(options).then(function(imageData) {
@@ -409,12 +378,14 @@
 
 			var ft = new FileTransfer();
 			ft.upload(imageUri, encodeURI(url + '/api/v1/bpms/upload-photo/' + vm.claim.processId + '/' + options.fileName), function(success) {
-			$log.info("Found photo link: " + success.link);
+				var responseData = JSON.parse(success.response);
+				var link = responseData.link;
 
-			var link = success.link;
-			vm.claim.photos.push(link);
-
-			vm.showUploadSpinner = false;
+				$rootScope.$apply(function() {
+						$log.info("Scope apply for link: " + link);
+						vm.claim.photos.push(link);
+				});
+				vm.showUploadSpinner = false;
 			}, function(error) {
 				vm.showUploadSpinner = false;
 				$log.error(error);

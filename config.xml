@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?><widget android-versionCode="1" id="com.redhat.vizuri.demo.reporter" ios-CFBundleVersion="1.0" version="1.0">
     <name>reporter</name>
 	<description>
-		Mobile demo using Red Hat BRMS and BPM Suite
+		Mobile demo using Red Hat BRMS, BPM Suite, OpenShift and 3Scale, oh my!
 	</description>
 	<content src="index.html"/>
   <access origin="https://*.us.demos.redhatmobile.com"/>
   <access origin="https://*.mbaas2.tom.redhatmobile.com"/>
+  <access origin="http://*.apps.ocp.hucmaggie.com"/>
 
   <plugin name="cordova-plugin-whitelist" spec="https://github.com/apache/cordova-plugin-whitelist" />
   <plugin name="cordova-plugin-device" spec="latest"/>
-  <plugin name="cordova-plugin-camera" spec="latest"/>
-  <plugin name="cordova-plugin-file-transfer" spec="latest"/>
   <plugin name="cordova-plugin-file" spec="latest"/>
+  <plugin name="cordova-plugin-file-transfer" spec="latest"/>
+  <plugin name="cordova-plugin-camera" spec="https://github.com/apache/cordova-plugin-camera#2.2.0"/>
   <plugin name="cordova-plugin-media" spec="latest"/>
   <plugin name="cordova-plugin-media-capture" spec="latest"/>
   <plugin name="cordova-plugin-dialogs" spec="latest"/>
@@ -35,13 +36,12 @@
  	<preference name="BackupWebStorage" value="none"/>
  	<preference name="SplashScreen" value="screen"/>
  	<preference name="SplashScreenDelay" value="2000"/>
-  <preference name="AndroidPersistentFileLocation" value="Compatibility" />
+  <preference name="android-targetSdkVersion" value="23" />
+  <preference name="andoird-minSdkVersion" value="16" />
  	<feature name="StatusBar">
 		<param name="ios-package" value="CDVStatusBar" onload="true"/>
  	</feature>
-  <feature name="Camera">
-    <param name="android-package" value="org.apache.cordova.CameraLauncher" />
-  </feature>
+
     <platform name="ios">
         <icon height="60" src="www/res/icons/ios/Icon-60.png" width="60"/>
         <icon height="120" src="www/res/icons/ios/Icon-60@2x.png" width="120"/>

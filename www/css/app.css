@@ -170,3 +170,14 @@ footer>div>small {
 	min-height: 400px;
 	overflow-y: auto;
 }
+
+.incident-photo-gallery div {
+		padding: 5px;
+		float: left;
+		width: 33%;
+}
+
+.incident-photo-gallery div img {
+	float: left;
+	width: 100%;
+}

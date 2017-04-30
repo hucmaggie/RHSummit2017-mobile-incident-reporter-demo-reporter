@@ -16,9 +16,9 @@
   "cordovaPlugins": [
     "cordova-plugin-whitelist",
     "cordova-plugin-device",
-    "cordova-plugin-camera",
-    "cordova-plugin-file-transfer",
     "cordova-plugin-file",
+    "cordova-plugin-file-transfer",
+    "cordova-plugin-camera",
     "cordova-plugin-media",
     "cordova-plugin-media-capture",
     "cordova-plugin-dialogs",
