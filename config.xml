@@ -24,7 +24,6 @@
   <plugin name="com.feedhenry.plugins.apkdownloader" spec="https://github.com/feedhenry/fh-cordova-plugin-apkdownloader.git#fh0.0.1"/>
   <plugin name="cordova-plugin-statusbar" spec="latest"/>
   <plugin name="com.feedhenry.plugin.device" spec="https://github.com/feedhenry/fh-cordova-plugin-device.git#fh0.0.3"/>
-  <plugin name="cordova-plugin-splashscreen" spec="~4.0.1"/>
   <plugin name="aerogear-cordova-push" spec="https://github.com/aerogear/aerogear-cordova-push#3.1.0"/>
 
   <preference name="ShowSplashScreenSpinner" value="true"/>
