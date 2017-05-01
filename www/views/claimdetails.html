@@ -1,7 +1,7 @@
 <ion-view>
     <ion-header-bar align-title="center" class="bar bar-header bar-dark">
         <a class="button button-icon icon ion-arrow-left-c" href="#/claims"></a>
-        <h1 class="title">Claim Details</h1>
+        <h1 class="title">Incident Details</h1>
     </ion-header-bar>
     <ion-content>
         <div class="incident-content-area">
@@ -10,22 +10,16 @@
                     <strong>Process Id: </strong>{{vm.claim.processId}}
                 </div>
                 <div class="item">
-                    <strong>Claim Id: </strong>{{vm.claim.processId}}
+                    <strong>Type: </strong>{{vm.claim.incident.incidentType}}
                 </div>
                 <div class="item">
-                    <strong>Status: </strong>{{vm.claim.incident.incidentType}}
-                </div>
-                <div class="item">
-                    <strong>Accident Date: </strong>{{vm.claim.incident.incidentDate | date}}
+                    <strong>Reported Date: </strong>{{vm.claim.incident.incidentDate | date}}
                 </div>
                 <div class="item">
                     <strong>State: </strong>{{vm.claim.incident.stateCode}}
                 </div>
                 <div class="item">
                     <strong>Zip Code: </strong>{{vm.claim.incident.zipCode}}
-                </div>
-                <div class="item">
-                    <strong>Stated Value: </strong>{{vm.claim.statedValue | currency}}
                 </div>
                 <div class="item">
                     <strong>{{vm.claim.questionnaire.name}}</strong>

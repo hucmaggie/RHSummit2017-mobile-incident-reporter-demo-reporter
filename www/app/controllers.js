@@ -69,24 +69,31 @@
 		loadClaims();
 	}
 
-	function newClaimController($log, $timeout, $location, FHCObjectScrubber, Claims, Incidents, UUID, States) {
+	function newClaimController($log, $timeout, $location, $filter, $rootScope, FHCObjectScrubber, UUID, States) {
 		$log.info('Inside Claimee:NewClaimController');
 		var vm = this;
 
+		vm.severities = ['LOW','MEDIUM','HIGH'];
+		vm.incidentDate = $filter("date")(Date.now(), 'yyyy-MM-dd');
+		vm.severity = 'LOW';
+
 		vm.showIncident = true;
 		vm.showQuestions = false;
-		vm.incidentTypes = Claims.getClaimTypes();
+		vm.incidentTypes = ["windshield","collision","hail"];
 		vm.states = States;
 		vm.claim = {
 			id : 0,
 			processId : 0,
 			incident : {
 				id : null,
+				reporterUserId : 99,
 				type : null,
 				description : null,
 				incidentDate : null,
+				buildingName : null,
 				stateCode : null,
-				zipCode : null
+				zipCode : null,
+				severity: null
 			},
 			customer : null,
 			questionnaires : [],
@@ -252,15 +259,14 @@
 		function submitIncident() {
       $log.info("Inside submitIncident");
 
-			vm.claim.incident.id = vm.incident.id;
-			vm.claim.incident.type = vm.incident.type;
+			vm.claim.incident.id = Math.round(Math.random()*1000) + 1;
+			vm.claim.incident.type = vm.incidentType;
 			vm.claim.incident.description = vm.description;
 			vm.claim.incident.incidentDate = vm.incidentDate;
+			vm.claim.incident.buildingName = vm.buildingName;
 			vm.claim.incident.stateCode = vm.stateCode;
 			vm.claim.incident.zipCode = vm.zipCode;
-			vm.claim.statedValue = vm.statedValue;
-
-			delete vm.claim.incident.$$hashKey;
+			vm.claim.incident.severity = vm.severity;
 
 			feedhenry.cloud({
 				path : '/api/v1/bpms/customer-incident',
@@ -323,6 +329,9 @@
 
         $log.info("done saving Comment: ", vm.comment);
 
+				if (!vm.claim.comments) {
+					vm.claim.comments = [];
+				}
 				vm.claim.comments.push({
 					message : vm.comment,
 					title : '',
