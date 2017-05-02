@@ -308,16 +308,9 @@
 
             if ($rootScope.claim) {
                 vm.claim = $rootScope.claim;
-
-                $log.info("questions: ", vm.claim.questionnaire.questions);
-                $log.info("answers: ", vm.claim.questionnaire.answers);
-
                 vm.claim.questionnaire.answers.forEach(function(ans){
-
                     vm.answers[ans.questionId] = ans;
                 });
-
-
                 vm.hasClaim = true;
             } else {
                 $location.path('/claims');
