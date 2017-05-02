@@ -1,4 +1,9 @@
 {
+  "android": {
+    "senderID": "201611634688",
+    "variantID": "e8b714ed-35ab-441b-9bbb-4f054b84efd6",
+    "variantSecret": "f48bc681-7d6b-4468-83b0-232e8a45e0b8"
+  },
   "appid": "a5evrqmapdmyrayrxybnhgn6",
   "appkey": "a3cb33ee394973f6ca96df01320541eff6ae5aad",
   "apptitle": "reporter",
