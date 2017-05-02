@@ -41,7 +41,7 @@
                                 claim.incidentPhotoIds.forEach(function (p, i) {
                                     var link = 'http://services-incident-demo.apps.ocp.hucmaggie.com/photos/' + claim.processId + '/' + p.replace(/'/g, '');
                                     claim.photos.push(link);
-                                    $log.info("photo link: ", link);
+                                    //$log.info("photo link: ", link);
                                 });
                             }
 
@@ -295,6 +295,7 @@
         $log.info('Inside Claimee:ClaimDetailController');
         var vm = this;
 
+        vm.answers = {};
         vm.hasClaim = false;
         vm.showUploadSpinner = false;
         var ready = false;
@@ -310,6 +311,13 @@
 
                 $log.info("questions: ", vm.claim.questionnaire.questions);
                 $log.info("answers: ", vm.claim.questionnaire.answers);
+
+                vm.claim.questionnaire.answers.forEach(function(ans){
+
+                    vm.answers[ans.questionId] = ans;
+                });
+
+
                 vm.hasClaim = true;
             } else {
                 $location.path('/claims');
@@ -390,7 +398,7 @@
             options.mimeType = "image/jpeg";
 
             var ft = new FileTransfer();
-            ft.upload(imageUri, encodeURI(url + '/api/v1/bpms/upload-photo/' + vm.claim.processId + '/' + options.fileName), function (success) {
+            ft.upload(imageUri, encodeURI(url + '/api/v1/bpms/upload-photo/' + vm.claim.processId + '/' + options.fileName + '/reporter'), function (success) {
                 var responseData = JSON.parse(success.response);
                 var link = responseData.link;
 

@@ -23,9 +23,8 @@
                 </div>
                 <div class="item">
                     <strong>{{vm.claim.questionnaire.name}}</strong>
-                    <div ng-repeat="question in vm.claim.questionnaire.questions">{{question.description}} -
-                        {{vm.claim.questionnaire.answers[vm.claim.questionnaire.questions.indexOf(question)].strValue ?
-                        vm.claim.questionnaire.answers[q.questions.indexOf(question)].strValue : 'No answer'}}
+                    <div ng-repeat="question in vm.claim.questionnaire.questions">
+                        {{$index + ") " + question.description}} - {{vm.answers[question.questionId].strValue}}
                     </div>
                 </div>
                 <div class="item item-divider">Photos</div>
