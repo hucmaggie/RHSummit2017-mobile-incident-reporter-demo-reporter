@@ -13,13 +13,25 @@
                     <strong>Type: </strong>{{vm.claim.incident.incidentType}}
                 </div>
                 <div class="item">
+                    <strong>Severity: </strong>{{vm.claim.incident.severity}}
+                </div>
+                <div class="item">
+                    <strong>Description</strong>
+                    <div>
+                        {{vm.claim.incident.description}}
+                    </div>
+                </div>
+                <div class="item">
                     <strong>Reported Date: </strong>{{vm.claim.incident.incidentDate | date}}
+                </div>
+                <div class="item">
+                    <strong>Building Name: </strong>{{vm.claim.incident.buildingName}}
                 </div>
                 <div class="item">
                     <strong>State: </strong>{{vm.claim.incident.stateCode}}
                 </div>
                 <div class="item">
-                    <strong>Zip Code: </strong>{{vm.claim.incident.zipCode}}
+                    <strong>Postal Code: </strong>{{vm.claim.incident.zipCode}}
                 </div>
                 <div class="item">
                     <strong>{{vm.claim.questionnaire.name}}</strong>
